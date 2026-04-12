@@ -515,19 +515,19 @@ export async function batchQuote(symbols: readonly string[]) {
 | A4 | earningsTrend의 period "0q"/"1q" 패턴으로 Revision 판정 가능 | Architecture Patterns | 실제 응답 구조가 다를 수 있음 -- 첫 구현 시 실제 응답 로깅 후 조정 필요 |
 | A5 | DX-Y.NYB가 DXY(달러인덱스)의 Yahoo Finance 심볼이다 | Code Examples | 심볼 오류 시 데이터 조회 실패 |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **earningsTrend 실제 응답 구조**
+1. **earningsTrend 실제 응답 구조** — RESOLVED: Plan 01-02 Task 2에서 `deriveRevision()` 함수가 earningsTrend null/undefined 시 NEUTRAL 폴백 처리. 런타임 로깅으로 구조 확인 후 로직 확정.
    - What we know: `earningsTrend` 모듈이 존재하며 trend 배열 포함
    - What's unclear: period 필드의 정확한 값, EPS 추정치 변화를 Revision UP/DOWN으로 변환하는 최적 로직
    - Recommendation: 첫 구현 시 AAPL 등 대형주로 실제 응답을 로깅하여 구조 확인 후 로직 확정
 
-2. **feargreedchart.com API 응답 안정성**
+2. **feargreedchart.com API 응답 안정성** — RESOLVED: Plan 01-03 Task 1에서 timeout 보호 + null 폴백 + score 범위 검증 구현. 서버사이드 캐싱 포함.
    - What we know: 문서화된 무료 API, CORS 허용, 15분 캐시
    - What's unclear: 장기 안정성, 서비스 중단 빈도
    - Recommendation: 서버 사이드에서 호출하고 자체 캐싱 레이어 추가. 실패 시 null 반환
 
-3. **24시간 자산 갱신 로직 (D-12)**
+3. **24시간 자산 갱신 로직 (D-12)** — RESOLVED: Plan 01-04 Task 1에서 market-data 훅은 항상 5분, watchlist/monitoring 훅은 장 운영시간에 따라 조건부 갱신 주기 적용.
    - What we know: BTC, GOLD, DXY는 장 마감 후에도 갱신 필요
    - What's unclear: 3개 API 엔드포인트가 분리되어 있어 market-data만 별도 갱신 주기 적용이 자연스러움
    - Recommendation: `/api/market-data` 훅은 항상 5분 갱신, `/api/watchlist`와 `/api/monitoring` 훅만 장 시간에 따라 주기 조절
