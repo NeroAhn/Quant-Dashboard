@@ -25,7 +25,13 @@ Build a real-time financial dashboard for a senior macro strategist. Phase 1 est
   2. Visiting /api/market-data returns JSON with current values for S&P 500, NASDAQ, BTC, GOLD, 10Y Yield, DXY, and Fear & Greed
   3. Action signals (Buy/Hold/Wait/Trim) are correctly assigned based on the defined quant rules when given known test inputs
   4. Data auto-refreshes on a 5-minute interval without manual page reload, with skeleton placeholders shown during initial load and a freshness timestamp displayed
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Next.js 15 프로젝트 초기화, 타입 정의, 상수 확립
+- [ ] 01-02-PLAN.md — 퀀트 엔진(RS/MA50/Drawdown) TDD 구현 + Watchlist/Monitoring API 라우트
+- [ ] 01-03-PLAN.md — Market Data API 라우트 (시장 지표 + Fear & Greed Index)
+- [ ] 01-04-PLAN.md — TanStack Query 훅, Zustand 스토어, 데이터 파이프라인 통합 검증
 
 ### Phase 2: Dashboard UI
 **Goal**: Users can navigate a 3-tab dashboard to view market overview, watchlist, and monitoring list with full quant data rendered in the Premium Minimal Brutalism design
@@ -56,6 +62,6 @@ Phases execute in numeric order: 1 -> 2 -> 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Data Pipeline | 0/TBD | Not started | - |
+| 1. Foundation & Data Pipeline | 0/4 | Planning complete | - |
 | 2. Dashboard UI | 0/TBD | Not started | - |
 | 3. AI Intelligence & Deployment | 0/TBD | Not started | - |
