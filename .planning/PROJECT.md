@@ -12,29 +12,28 @@
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] 3-Tab 시스템 (Strategic Overview / Watchlist / Monitoring List) — Validated in Phase 1-2
+- [x] 상단 지표 해석 가이드(Alpha Watchlist Manual) 상시 노출 — Validated in Phase 2
+- [x] Yahoo Finance API를 통한 실시간 시세 데이터 연동 (5분 주기 자동 갱신) — Validated in Phase 1
+- [x] Market Snapshot 카드: S&P 500, NASDAQ, BTC, GOLD, 10Y Yield, DXY, Fear & Greed — Validated in Phase 2
+- [x] Market Opportunities & Risks 사이드바 패널 — Validated in Phase 2
+- [x] Strategic Timeline (주요 경제 이벤트 일정) — Validated in Phase 2
+- [x] Macro Threshold Warnings (10Y Yield 4.5%, DXY 106.0, Fear Index 30 이하 임계치 알림) — Validated in Phase 2
+- [x] Numerical Checklist (종목별 조건부 대응: Buy/Hold/Wait/Trim 액션 시그널) — Validated in Phase 2
+- [x] Watchlist 테이블 (12 종목): Symbol, Price/1D%, High/Drawdown, RS, MA50 Dist, Revision, FWD P/E, Strategic Note — Validated in Phase 2
+- [x] Monitoring List 테이블 (9 종목): 동일 컬럼 구조 — Validated in Phase 2
+- [x] 퀀트 엔진: RS, MA50 Distance, Drawdown 자동 계산 — Validated in Phase 1
+- [x] 조건부 액션 시그널 로직 자동 판정 — Validated in Phase 1
+- [x] 테이블 정렬/필터링 (RS 강도순, 낙폭순) — Validated in Phase 2
+- [x] 종목 검색 기능 — Validated in Phase 2
+- [x] 반응형 모바일 대응 레이아웃 — Validated in Phase 2
+- [x] Skeleton UI 로딩 상태 — Validated in Phase 2
+- [x] Premium Minimal Brutalism 디자인 시스템 — Validated in Phase 2
+- [x] 한국어 UI — Validated in Phase 2
 
 ### Active
 
-- [ ] 3-Tab 시스템 (Strategic Overview / Watchlist / Monitoring List)
-- [ ] 상단 지표 해석 가이드(Alpha Watchlist Manual) 상시 노출
-- [ ] Yahoo Finance API를 통한 실시간 시세 데이터 연동 (5분 주기 자동 갱신)
-- [ ] Market Snapshot 카드: S&P 500, NASDAQ, BTC, GOLD, 10Y Yield, DXY, Fear & Greed
 - [ ] 3-Line Executive Summary (Gemini API 기반 AI 자동 생성)
-- [ ] Market Opportunities & Risks 사이드바 패널
-- [ ] Strategic Timeline (주요 경제 이벤트 일정)
-- [ ] Macro Threshold Warnings (10Y Yield 4.5%, DXY 106.0, Fear Index 30 이하 임계치 알림)
-- [ ] Numerical Checklist (종목별 조건부 대응: Buy/Hold/Wait/Trim 액션 시그널)
-- [ ] Watchlist 테이블 (12 종목): Symbol, Price/1D%, High/Drawdown, RS, MA50 Dist, Revision, FWD P/E, Strategic Note
-- [ ] Monitoring List 테이블 (9 종목): 동일 컬럼 구조
-- [ ] 퀀트 엔진: RS, MA50 Distance, Drawdown 자동 계산
-- [ ] 조건부 액션 시그널 로직 자동 판정
-- [ ] 테이블 정렬/필터링 (RS 강도순, 낙폭순)
-- [ ] 종목 검색 기능
-- [ ] 반응형 모바일 대응 레이아웃
-- [ ] Skeleton UI 로딩 상태
-- [ ] Premium Minimal Brutalism 디자인 시스템
-- [ ] 한국어 UI
 - [ ] Vercel 배포
 
 ### Out of Scope
@@ -102,4 +101,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-12 after initialization*
+*Last updated: 2026-04-12 after Phase 2 (dashboard-ui) completion*
