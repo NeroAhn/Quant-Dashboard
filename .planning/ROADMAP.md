@@ -28,10 +28,10 @@ Build a real-time financial dashboard for a senior macro strategist. Phase 1 est
 **Plans**: 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Next.js 15 프로젝트 초기화, 타입 정의, 상수 확립
-- [ ] 01-02-PLAN.md — 퀀트 엔진(RS/MA50/Drawdown) TDD 구현 + Watchlist/Monitoring API 라우트
-- [ ] 01-03-PLAN.md — Market Data API 라우트 (시장 지표 + Fear & Greed Index)
-- [ ] 01-04-PLAN.md — TanStack Query 훅, Zustand 스토어, 데이터 파이프라인 통합 검증
+- [x] 01-01-PLAN.md — Next.js 15 프로젝트 초기화, 타입 정의, 상수 확립
+- [x] 01-02-PLAN.md — 퀀트 엔진(RS/MA50/Drawdown) TDD 구현 + Watchlist/Monitoring API 라우트
+- [x] 01-03-PLAN.md — Market Data API 라우트 (시장 지표 + Fear & Greed Index)
+- [x] 01-04-PLAN.md — TanStack Query 훅, Zustand 스토어, 데이터 파이프라인 통합 검증
 
 ### Phase 2: Dashboard UI
 **Goal**: Users can navigate a 3-tab dashboard to view market overview, watchlist, and monitoring list with full quant data rendered in the Premium Minimal Brutalism design
