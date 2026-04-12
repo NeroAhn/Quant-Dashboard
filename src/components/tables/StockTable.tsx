@@ -95,7 +95,7 @@ export function StockTable({
               <tr>
                 <SortHeader field="symbol" label="종목" />
                 <th className="px-6 py-4">가격 / 1D %</th>
-                <th className="px-6 py-4">고가 / 낙폭</th>
+                <SortHeader field="drawdown" label="고가 / 낙폭" />
                 <SortHeader field="rs" label="RS (상대강도)" />
                 <SortHeader field="ma50Dist" label="MA50 이격도" />
                 <th className="px-6 py-4">Revision</th>
