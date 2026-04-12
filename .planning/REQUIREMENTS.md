@@ -34,13 +34,13 @@
 ### Tab 1: Strategic Overview
 
 - [ ] **TAB1-01**: 3-Line Executive Summary를 Gemini API로 자동 생성한다 (30분 간격 캐싱)
-- [ ] **TAB1-02**: Market Snapshot 카드 7개를 표시한다 (S&P 500, NASDAQ, BTC, GOLD, 10Y Yield, DXY, Fear & Greed)
-- [ ] **TAB1-03**: 각 카드에 현재값, 변동률, 방향 화살표를 표시한다
-- [ ] **TAB1-04**: Macro Threshold Warnings를 표시한다 (10Y Yield 4.5%, DXY 106.0, Fear Index 30 이하)
-- [ ] **TAB1-05**: 임계치 돌파 시 Amber/Red Alert UI를 활성화한다
+- [x] **TAB1-02**: Market Snapshot 카드 7개를 표시한다 (S&P 500, NASDAQ, BTC, GOLD, 10Y Yield, DXY, Fear & Greed)
+- [x] **TAB1-03**: 각 카드에 현재값, 변동률, 방향 화살표를 표시한다
+- [x] **TAB1-04**: Macro Threshold Warnings를 표시한다 (10Y Yield 4.5%, DXY 106.0, Fear Index 30 이하)
+- [x] **TAB1-05**: 임계치 돌파 시 Amber/Red Alert UI를 활성화한다
 - [x] **TAB1-06**: Market Opportunities & Risks 사이드바 패널을 표시한다
 - [x] **TAB1-07**: Strategic Timeline에 주요 경제 이벤트 일정을 표시한다
-- [ ] **TAB1-08**: Numerical Checklist에 종목별 액션 시그널 요약을 표시한다
+- [x] **TAB1-08**: Numerical Checklist에 종목별 액션 시그널 요약을 표시한다
 
 ### Tab 2 & 3: Watchlist & Monitoring List
 
@@ -109,13 +109,13 @@
 | ASIG-04 | Phase 1 | Pending |
 | ASIG-05 | Phase 1 | Pending |
 | TAB1-01 | Phase 3 | Pending |
-| TAB1-02 | Phase 2 | Pending |
-| TAB1-03 | Phase 2 | Pending |
-| TAB1-04 | Phase 2 | Pending |
-| TAB1-05 | Phase 2 | Pending |
+| TAB1-02 | Phase 2 | Complete |
+| TAB1-03 | Phase 2 | Complete |
+| TAB1-04 | Phase 2 | Complete |
+| TAB1-05 | Phase 2 | Complete |
 | TAB1-06 | Phase 2 | Complete |
 | TAB1-07 | Phase 2 | Complete |
-| TAB1-08 | Phase 2 | Pending |
+| TAB1-08 | Phase 2 | Complete |
 | TAB2-01 | Phase 2 | Complete |
 | TAB2-02 | Phase 2 | Complete |
 | TAB2-03 | Phase 2 | Complete |
