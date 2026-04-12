@@ -43,13 +43,14 @@ Plans:
   3. User can sort tables by RS strength and drawdown, search for symbols, and see RS/Revision color coding applied
   4. Strategic Overview tab shows 7 market snapshot cards with values and directional indicators, macro threshold warnings when breached, and the Numerical Checklist with action signal summary
   5. Dashboard renders correctly on mobile with responsive layout, uses Korean UI labels, and follows the Premium Minimal Brutalism color palette with Lucide icons
-**Plans**: 3 plans
+**Plans**: 4 plans
 **UI hint**: yes
 
 Plans:
 - [x] 02-01-PLAN.md — 디자인 시스템 기초 (Tailwind 브랜드 컬러, 공유 상수) + 레이아웃/정적 개요 컴포넌트 추출
 - [x] 02-02-PLAN.md — 공유 StockTable 컴포넌트 (정렬/검색/모바일 카드 뷰) + Watchlist/Monitoring 탭 래퍼
 - [x] 02-03-PLAN.md — 동적 개요 컴포넌트 (MarketCards/ThresholdWarnings/NumericalChecklist) + page.tsx 오케스트레이터 재작성
+- [ ] 02-04-PLAN.md — [Gap closure] Drawdown 정렬 UI 트리거 누락 수정 (TAB2-04)
 
 ### Phase 3: AI Intelligence & Deployment
 **Goal**: The dashboard features an AI-generated 3-line executive summary and is live on Vercel for daily use
@@ -68,5 +69,5 @@ Phases execute in numeric order: 1 -> 2 -> 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Data Pipeline | 0/4 | Planning complete | - |
-| 2. Dashboard UI | 0/3 | Planning complete | - |
+| 2. Dashboard UI | 0/4 | Gap closure planned | - |
 | 3. AI Intelligence & Deployment | 0/TBD | Not started | - |
