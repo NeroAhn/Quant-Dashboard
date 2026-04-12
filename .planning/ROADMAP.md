@@ -50,7 +50,7 @@ Plans:
 - [x] 02-01-PLAN.md — 디자인 시스템 기초 (Tailwind 브랜드 컬러, 공유 상수) + 레이아웃/정적 개요 컴포넌트 추출
 - [x] 02-02-PLAN.md — 공유 StockTable 컴포넌트 (정렬/검색/모바일 카드 뷰) + Watchlist/Monitoring 탭 래퍼
 - [x] 02-03-PLAN.md — 동적 개요 컴포넌트 (MarketCards/ThresholdWarnings/NumericalChecklist) + page.tsx 오케스트레이터 재작성
-- [ ] 02-04-PLAN.md — [Gap closure] Drawdown 정렬 UI 트리거 누락 수정 (TAB2-04)
+- [x] 02-04-PLAN.md — [Gap closure] Drawdown 정렬 UI 트리거 누락 수정 (TAB2-04)
 
 ### Phase 3: AI Intelligence & Deployment
 **Goal**: The dashboard features an AI-generated 3-line executive summary and is live on Vercel for daily use
