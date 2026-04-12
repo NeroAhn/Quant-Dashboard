@@ -59,7 +59,11 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. Strategic Overview tab displays a 3-line AI-generated market summary powered by Gemini, refreshed every 30 minutes, with graceful fallback when the API is unavailable
   2. Dashboard is accessible at a Vercel URL, production build completes without errors, and Gemini API key is managed via environment variables
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Gemini AI Executive Summary 통합 (SDK + 프롬프트 + 캐시 + API 라우트 + UI 컴포넌트)
+- [ ] 03-02-PLAN.md — 환경변수 관리 + 프로덕션 빌드 검증 + Vercel 배포
 
 ## Progress
 
@@ -70,4 +74,4 @@ Phases execute in numeric order: 1 -> 2 -> 3
 |-------|----------------|--------|-----------|
 | 1. Foundation & Data Pipeline | 0/4 | Planning complete | - |
 | 2. Dashboard UI | 0/4 | Gap closure planned | - |
-| 3. AI Intelligence & Deployment | 0/TBD | Not started | - |
+| 3. AI Intelligence & Deployment | 0/2 | Planning complete | - |
