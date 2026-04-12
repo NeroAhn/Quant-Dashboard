@@ -44,20 +44,20 @@
 
 ### Tab 2 & 3: Watchlist & Monitoring List
 
-- [ ] **TAB2-01**: Watchlist 테이블에 12개 종목을 표시한다
-- [ ] **TAB2-02**: Monitoring List 테이블에 9개 종목을 표시한다
-- [ ] **TAB2-03**: 테이블 컬럼: Symbol, Price/1D%, High/Drawdown, RS, MA50 Dist, Revision, FWD P/E, Strategic Note
-- [ ] **TAB2-04**: RS 강도순 및 낙폭순 정렬 기능을 제공한다
-- [ ] **TAB2-05**: 리스트 내 종목 검색 기능을 제공한다
-- [ ] **TAB2-06**: RS > 110일 때 녹색, RS < 90일 때 빨간색으로 색상 코딩한다
-- [ ] **TAB2-07**: Revision UP/DOWN/NEUTRAL을 색상 배지로 표시한다
+- [x] **TAB2-01**: Watchlist 테이블에 12개 종목을 표시한다
+- [x] **TAB2-02**: Monitoring List 테이블에 9개 종목을 표시한다
+- [x] **TAB2-03**: 테이블 컬럼: Symbol, Price/1D%, High/Drawdown, RS, MA50 Dist, Revision, FWD P/E, Strategic Note
+- [x] **TAB2-04**: RS 강도순 및 낙폭순 정렬 기능을 제공한다
+- [x] **TAB2-05**: 리스트 내 종목 검색 기능을 제공한다
+- [x] **TAB2-06**: RS > 110일 때 녹색, RS < 90일 때 빨간색으로 색상 코딩한다
+- [x] **TAB2-07**: Revision UP/DOWN/NEUTRAL을 색상 배지로 표시한다
 
 ### Design System (디자인 시스템)
 
 - [x] **DSGN-01**: Premium Minimal Brutalism 디자인 아이덴티티를 적용한다
 - [x] **DSGN-02**: 컬러 팔레트: Background #F8FAFC, Primary #1E293B, Accent #EA580C/#2563EB
 - [x] **DSGN-03**: 상단에 Alpha Watchlist Manual(지표 해석 가이드) 레전드를 상시 노출한다
-- [ ] **DSGN-04**: 반응형 모바일 레이아웃을 지원한다
+- [x] **DSGN-04**: 반응형 모바일 레이아웃을 지원한다
 - [x] **DSGN-05**: 한국어 UI 라벨 및 설명을 적용한다
 - [x] **DSGN-06**: Lucide-react 아이콘을 사용한다
 
@@ -116,17 +116,17 @@
 | TAB1-06 | Phase 2 | Complete |
 | TAB1-07 | Phase 2 | Complete |
 | TAB1-08 | Phase 2 | Pending |
-| TAB2-01 | Phase 2 | Pending |
-| TAB2-02 | Phase 2 | Pending |
-| TAB2-03 | Phase 2 | Pending |
-| TAB2-04 | Phase 2 | Pending |
-| TAB2-05 | Phase 2 | Pending |
-| TAB2-06 | Phase 2 | Pending |
-| TAB2-07 | Phase 2 | Pending |
+| TAB2-01 | Phase 2 | Complete |
+| TAB2-02 | Phase 2 | Complete |
+| TAB2-03 | Phase 2 | Complete |
+| TAB2-04 | Phase 2 | Complete |
+| TAB2-05 | Phase 2 | Complete |
+| TAB2-06 | Phase 2 | Complete |
+| TAB2-07 | Phase 2 | Complete |
 | DSGN-01 | Phase 2 | Complete |
 | DSGN-02 | Phase 2 | Complete |
 | DSGN-03 | Phase 2 | Complete |
-| DSGN-04 | Phase 2 | Pending |
+| DSGN-04 | Phase 2 | Complete |
 | DSGN-05 | Phase 2 | Complete |
 | DSGN-06 | Phase 2 | Complete |
 | DEPL-01 | Phase 3 | Pending |
