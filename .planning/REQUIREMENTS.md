@@ -91,13 +91,53 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (Roadmap 생성 시 채워짐) | | |
+| DATA-01 | Phase 1 | Pending |
+| DATA-02 | Phase 1 | Pending |
+| DATA-03 | Phase 1 | Pending |
+| DATA-04 | Phase 1 | Pending |
+| DATA-05 | Phase 1 | Pending |
+| DATA-06 | Phase 1 | Pending |
+| DATA-07 | Phase 1 | Pending |
+| DATA-08 | Phase 1 | Pending |
+| QENG-01 | Phase 1 | Pending |
+| QENG-02 | Phase 1 | Pending |
+| QENG-03 | Phase 1 | Pending |
+| QENG-04 | Phase 1 | Pending |
+| ASIG-01 | Phase 1 | Pending |
+| ASIG-02 | Phase 1 | Pending |
+| ASIG-03 | Phase 1 | Pending |
+| ASIG-04 | Phase 1 | Pending |
+| ASIG-05 | Phase 1 | Pending |
+| TAB1-01 | Phase 3 | Pending |
+| TAB1-02 | Phase 2 | Pending |
+| TAB1-03 | Phase 2 | Pending |
+| TAB1-04 | Phase 2 | Pending |
+| TAB1-05 | Phase 2 | Pending |
+| TAB1-06 | Phase 2 | Pending |
+| TAB1-07 | Phase 2 | Pending |
+| TAB1-08 | Phase 2 | Pending |
+| TAB2-01 | Phase 2 | Pending |
+| TAB2-02 | Phase 2 | Pending |
+| TAB2-03 | Phase 2 | Pending |
+| TAB2-04 | Phase 2 | Pending |
+| TAB2-05 | Phase 2 | Pending |
+| TAB2-06 | Phase 2 | Pending |
+| TAB2-07 | Phase 2 | Pending |
+| DSGN-01 | Phase 2 | Pending |
+| DSGN-02 | Phase 2 | Pending |
+| DSGN-03 | Phase 2 | Pending |
+| DSGN-04 | Phase 2 | Pending |
+| DSGN-05 | Phase 2 | Pending |
+| DSGN-06 | Phase 2 | Pending |
+| DEPL-01 | Phase 3 | Pending |
+| DEPL-02 | Phase 3 | Pending |
+| DEPL-03 | Phase 3 | Pending |
 
 **Coverage:**
-- v1 requirements: 39 total
-- Mapped to phases: 0
-- Unmapped: 39 ⚠️
+- v1 requirements: 41 total
+- Mapped to phases: 41
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-12*
-*Last updated: 2026-04-12 after initial definition*
+*Last updated: 2026-04-12 after roadmap creation*
