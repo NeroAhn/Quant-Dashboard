@@ -42,8 +42,12 @@ async function fetchCandidates(
 ): Promise<OpportunityCandidate[]> {
   const results = await Promise.allSettled(
     symbols.map(async (symbol) => {
-      const quote = await yahooFinance.quote(symbol);
-      return { symbol, quote };
+      try {
+        const quote = await yahooFinance.quote(symbol);
+        return { symbol, quote };
+      } catch {
+        return { symbol, quote: null };
+      }
     }),
   );
 
@@ -51,6 +55,7 @@ async function fetchCandidates(
   for (const r of results) {
     if (r.status !== "fulfilled") continue;
     const { symbol, quote } = r.value;
+    if (!quote) continue;
     const sector = SECTOR_BY_SYMBOL[symbol];
     if (!sector) continue;
 
