@@ -11,6 +11,7 @@ const MARKET_CAP_MIN = 2_000_000_000; // $2B
 export interface BuffettOppBundle {
   entries: BuffettMetrics[];
   generatedAt: string;
+  memoError?: string;
   stats: {
     universeSize: number;
     excludedByIndustry: number;
@@ -79,8 +80,8 @@ const MEMO_TOP_N = 30;
 
 async function attachMemos(
   entries: BuffettMetrics[],
-): Promise<BuffettMetrics[]> {
-  if (entries.length === 0) return entries;
+): Promise<{ entries: BuffettMetrics[]; error?: string }> {
+  if (entries.length === 0) return { entries };
   // Only generate memos for the top-N (highest MoS discount) to fit
   // within Gemini's single-call output-token budget.
   const memoTargets = entries.slice(0, MEMO_TOP_N);
@@ -106,13 +107,19 @@ async function attachMemos(
     }));
 
     const memos = await generateMemosFromContexts(contexts);
-    return entries.map((m) => ({
+    const memoCount = Object.keys(memos).length;
+    const result = entries.map((m) => ({
       ...m,
       memo: memos[m.symbol],
     })) as BuffettMetrics[];
+    if (memoCount === 0) {
+      return { entries: result, error: "gemini returned 0 memos" };
+    }
+    return { entries: result };
   } catch (error) {
-    console.warn("[buffett] memo generation failed:", error);
-    return entries;
+    const msg = error instanceof Error ? error.message : String(error);
+    console.warn("[buffett] memo generation failed:", msg);
+    return { entries, error: msg };
   }
 }
 
@@ -127,12 +134,13 @@ export async function generateBuffettOpp(): Promise<BuffettOppBundle> {
   } = await fetchAllBuffett();
 
   const sorted = sortByMoS(ok);
-  const withMemos = await attachMemos(sorted);
+  const { entries: withMemos, error: memoError } = await attachMemos(sorted);
   const picks = withMemos.filter((e) => e.pick.all).length;
 
   return {
     entries: withMemos,
     generatedAt: new Date().toISOString(),
+    memoError,
     stats: {
       universeSize,
       excludedByIndustry,
