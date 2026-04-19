@@ -24,7 +24,7 @@ async function generateAndRemember(): Promise<OpportunityBundle> {
 
 export const getCachedOpportunities = unstable_cache(
   generateAndRemember,
-  ["opportunities-v2"],
+  ["opportunities-v3"],
   {
     revalidate: TWENTY_FOUR_HOURS_SECONDS,
     tags: [CACHE_TAG],

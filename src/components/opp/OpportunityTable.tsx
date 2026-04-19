@@ -71,7 +71,14 @@ export function OpportunityTable({ opportunities, isLoading }: Props) {
                 className="hover:bg-slate-50 transition-colors text-xs"
               >
                 <td className="px-4 py-4 text-slate-400 font-mono">{o.rank}</td>
-                <td className="px-4 py-4 font-bold text-sm">{o.symbol}</td>
+                <td className="px-4 py-4">
+                  <div className="flex flex-col">
+                    <span className="font-bold text-sm">{o.symbol}</span>
+                    <span className="text-[11px] text-slate-500 truncate max-w-[180px]">
+                      {o.name}
+                    </span>
+                  </div>
+                </td>
                 <td className="px-4 py-4 text-slate-500">{o.sector}</td>
                 <td className="px-4 py-4">
                   <div className="flex flex-col">
@@ -126,13 +133,18 @@ export function OpportunityTable({ opportunities, isLoading }: Props) {
             key={o.symbol}
             className="bg-white rounded-xl border border-slate-200 p-4 space-y-3 shadow-sm"
           >
-            <div className="flex justify-between items-center">
-              <div className="flex items-baseline gap-2">
-                <span className="text-slate-400 font-mono text-xs">
-                  #{o.rank}
+            <div className="flex justify-between items-start">
+              <div className="flex flex-col gap-0.5">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-slate-400 font-mono text-xs">
+                    #{o.rank}
+                  </span>
+                  <span className="font-bold text-sm">{o.symbol}</span>
+                  <span className="text-[10px] text-slate-400">{o.sector}</span>
+                </div>
+                <span className="text-[11px] text-slate-600 truncate max-w-[260px]">
+                  {o.name}
                 </span>
-                <span className="font-bold text-sm">{o.symbol}</span>
-                <span className="text-[10px] text-slate-400">{o.sector}</span>
               </div>
               <span
                 className={`font-mono text-sm ${getScoreColor(o.oppScore)}`}

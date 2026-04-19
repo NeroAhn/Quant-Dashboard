@@ -2,6 +2,7 @@ import type { BroadSector } from "./universe";
 
 export interface OpportunityCandidate {
   symbol: string;
+  name: string;
   sector: BroadSector;
   price: number;
   change1D: number | null;

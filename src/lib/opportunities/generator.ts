@@ -18,6 +18,7 @@ import {
 
 export interface OpportunityEntry {
   symbol: string;
+  name: string;
   sector: BroadSector;
   price: number;
   change1D: number | null;
@@ -70,8 +71,14 @@ async function fetchCandidates(
 
     if (!passesFilter({ drawdown, forwardPE, marketCap })) continue;
 
+    const name =
+      (quote.shortName as string | undefined) ??
+      (quote.longName as string | undefined) ??
+      symbol;
+
     candidates.push({
       symbol,
+      name,
       sector,
       price,
       change1D,
@@ -120,6 +127,7 @@ export async function generateOpportunities(): Promise<OpportunityBundle> {
 
   const opportunities: OpportunityEntry[] = top.map((t, i) => ({
     symbol: t.symbol,
+    name: t.name,
     sector: t.sector,
     price: t.price,
     change1D: t.change1D,
