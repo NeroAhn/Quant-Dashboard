@@ -37,6 +37,7 @@ export async function getOrRefreshSummary(): Promise<ExecutiveSummaryResult> {
         systemInstruction: SYSTEM_INSTRUCTION,
         temperature: 0.3,
         maxOutputTokens: 500,
+        thinkingConfig: { thinkingBudget: 0 },
       },
     });
 
