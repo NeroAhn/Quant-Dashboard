@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import {
-  getCachedBuffettOpp,
-  invalidateBuffettOppCache,
-} from "@/lib/buffett/cache";
+  getCachedWatchlistBuffett,
+  invalidateWatchlistBuffettCache,
+} from "@/lib/buffett/watchlist-cache";
 
 export const maxDuration = 60;
 
@@ -12,18 +12,16 @@ export async function GET(request: Request) {
   if (expected && authHeader !== `Bearer ${expected}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-
   try {
-    invalidateBuffettOppCache();
-    const bundle = await getCachedBuffettOpp();
+    invalidateWatchlistBuffettCache();
+    const bundle = await getCachedWatchlistBuffett();
     return NextResponse.json({
       ok: true,
       generatedAt: bundle.generatedAt,
-      eligible: bundle.stats.eligible,
-      picks: bundle.stats.picks,
+      count: Object.keys(bundle.metrics).length,
     });
   } catch (error) {
-    console.error("[cron/refresh-opportunities] failure:", error);
+    console.error("[cron/refresh-buffett-watchlist] failure:", error);
     return NextResponse.json(
       { ok: false, error: "Failed to refresh" },
       { status: 500 },

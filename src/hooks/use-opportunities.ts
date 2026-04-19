@@ -1,16 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import type { OpportunityEntry } from "@/lib/opportunities/generator";
+import type { BuffettMetrics } from "@/types/buffett";
 
 export interface OpportunitiesResponse {
-  opportunities: OpportunityEntry[];
+  entries: BuffettMetrics[];
   generatedAt: string;
-  universeSize: number;
-  eligibleCount: number;
+  stats: {
+    universeSize: number;
+    excludedByIndustry: number;
+    failedFetch: number;
+    failedMarketCap: number;
+    failedIncome: number;
+    eligible: number;
+    picks: number;
+  };
 }
 
 export function useOpportunities() {
   return useQuery<OpportunitiesResponse>({
-    queryKey: ["opportunities"],
+    queryKey: ["opportunities-buffett"],
     queryFn: async () => {
       const res = await fetch("/api/opportunities");
       if (!res.ok)
