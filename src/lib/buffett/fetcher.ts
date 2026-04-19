@@ -84,7 +84,7 @@ export async function fetchBuffettData(
         })
         .catch(() => null),
       yahooFinance
-        .historical(symbol, {
+        .chart(symbol, {
           period1: new Date(Date.now() - HISTORICAL_LOOKBACK_DAYS * 86400_000),
           interval: "1d",
         })
@@ -213,11 +213,12 @@ export async function fetchBuffettData(
     // With only current ROE, consistency check reduces to "current ≥ 15%"
     const roeAbove15 = currentROE != null && currentROE >= 0.15;
 
-    // RSI from historical closes
-    const closes: number[] =
-      history
-        ?.map((h) => h.close)
-        .filter((v): v is number => typeof v === "number" && isFinite(v)) ?? [];
+    // RSI from historical closes (chart API: { meta, quotes: [{close}, ...] })
+    const quotes = (history as { quotes?: Array<{ close?: number | null }> } | null)
+      ?.quotes ?? [];
+    const closes: number[] = quotes
+      .map((q) => q.close)
+      .filter((v): v is number => typeof v === "number" && isFinite(v));
     const rsi14 = calculateRSI(closes, 14);
 
     // Pick evaluation
