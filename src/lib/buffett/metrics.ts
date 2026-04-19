@@ -112,7 +112,9 @@ export function fcfHistory(
 }
 
 /**
- * Check that latest N years all have positive netIncome AND operatingIncome.
+ * Check that latest N years all have positive netIncome.
+ * Operating income is often null in Yahoo's free tier, so we only enforce
+ * netIncome > 0 which is still reliably populated.
  */
 export function hasConsecutivePositiveIncome(
   income: YearlyIncome[],
@@ -120,5 +122,5 @@ export function hasConsecutivePositiveIncome(
 ): boolean {
   const recent = [...income].sort((a, b) => b.year - a.year).slice(0, years);
   if (recent.length < years) return false;
-  return recent.every((r) => r.netIncome > 0 && r.operatingIncome > 0);
+  return recent.every((r) => r.netIncome > 0);
 }

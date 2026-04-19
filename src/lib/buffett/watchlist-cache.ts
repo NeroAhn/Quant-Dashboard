@@ -23,7 +23,7 @@ async function generateAndRemember(): Promise<WatchlistBuffettBundle> {
 
 export const getCachedWatchlistBuffett = unstable_cache(
   generateAndRemember,
-  ["buffett-watchlist-v1"],
+  ["buffett-watchlist-v2"],
   {
     revalidate: TWENTY_FOUR_HOURS,
     tags: [CACHE_TAG],

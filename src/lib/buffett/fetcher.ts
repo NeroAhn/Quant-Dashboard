@@ -2,42 +2,14 @@ import yahooFinance from "@/lib/yahoo-finance/client";
 import { calculateRSI } from "./rsi";
 import { runDCF, fcfCagr } from "./dcf";
 import {
-  computeRoeHistory,
-  averageRoe,
-  debtToEarningsYears,
-  ownerEarningsHistory,
-  fcfHistory,
   hasConsecutivePositiveIncome,
   type YearlyIncome,
-  type YearlyBalance,
-  type YearlyCashflow,
 } from "./metrics";
 import type { BroadSector } from "@/lib/opportunities/universe";
 import type { BuffettMetrics } from "@/types/buffett";
+import type { RoeHistoryEntry } from "./metrics";
 
 const HISTORICAL_LOOKBACK_DAYS = 90;
-
-interface QuoteSummaryStatement {
-  endDate?: { raw?: number } | Date | number | null;
-}
-interface IncomeStmt extends QuoteSummaryStatement {
-  netIncome?: { raw?: number } | number | null;
-  operatingIncome?: { raw?: number } | number | null;
-}
-interface BalanceStmt extends QuoteSummaryStatement {
-  totalStockholderEquity?: { raw?: number } | number | null;
-  totalDebt?: { raw?: number } | number | null;
-  cash?: { raw?: number } | number | null;
-  shortLongTermDebt?: { raw?: number } | number | null;
-  longTermDebt?: { raw?: number } | number | null;
-  shortTermDebt?: { raw?: number } | number | null;
-}
-interface CashflowStmt extends QuoteSummaryStatement {
-  totalCashFromOperatingActivities?: { raw?: number } | number | null;
-  capitalExpenditures?: { raw?: number } | number | null;
-  depreciation?: { raw?: number } | number | null;
-  netIncome?: { raw?: number } | number | null;
-}
 
 function toNum(v: unknown): number | null {
   if (v == null) return null;
@@ -49,14 +21,17 @@ function toNum(v: unknown): number | null {
   return null;
 }
 
-function endYear(stmt: QuoteSummaryStatement): number | null {
-  const end = stmt.endDate;
-  if (!end) return null;
-  if (end instanceof Date) return end.getUTCFullYear();
-  if (typeof end === "number")
-    return new Date(end < 1e12 ? end * 1000 : end).getUTCFullYear();
-  if (typeof end === "object" && "raw" in end) {
-    const raw = (end as { raw?: number }).raw;
+function toYear(v: unknown): number | null {
+  if (!v) return null;
+  if (v instanceof Date) return v.getUTCFullYear();
+  if (typeof v === "number")
+    return new Date(v < 1e12 ? v * 1000 : v).getUTCFullYear();
+  if (typeof v === "string") {
+    const d = new Date(v);
+    return isNaN(d.getTime()) ? null : d.getUTCFullYear();
+  }
+  if (typeof v === "object" && "raw" in (v as Record<string, unknown>)) {
+    const raw = (v as { raw?: unknown }).raw;
     if (typeof raw === "number")
       return new Date(raw < 1e12 ? raw * 1000 : raw).getUTCFullYear();
   }
@@ -70,12 +45,26 @@ export interface BuffettFetchInput {
 
 export interface BuffettFetchResult {
   metrics: BuffettMetrics | null;
-  // Separate flag for funnel usage
   has3yrPositiveIncome: boolean;
   marketCap: number | null;
   error?: string;
 }
 
+/**
+ * Yahoo's free quoteSummary often returns sparse data:
+ *  - balanceSheetHistory and cashflowStatementHistory arrays are frequently
+ *    populated only with endDate + netIncome (rest null).
+ *  - operatingIncome is usually null in incomeStatementHistory.
+ *  - financialData, however, reliably exposes *current* snapshots of
+ *    totalDebt, totalCash, freeCashflow, returnOnEquity, operatingCashflow,
+ *    grossMargins.
+ *
+ * This fetcher therefore uses financialData as the primary source for
+ * balance-sheet and cash-flow values, and incomeStatementHistory just for
+ * the 3-year positive-netIncome gate and for a net-income based growth
+ * fallback. ROE is the current point value (Yahoo doesn't expose historical
+ * equity in the free tier reliably).
+ */
 export async function fetchBuffettData(
   input: BuffettFetchInput,
 ): Promise<BuffettFetchResult> {
@@ -89,9 +78,8 @@ export async function fetchBuffettData(
             "financialData",
             "defaultKeyStatistics",
             "incomeStatementHistory",
-            "balanceSheetHistory",
-            "cashflowStatementHistory",
             "earningsTrend",
+            "summaryDetail",
           ],
         })
         .catch(() => null),
@@ -119,114 +107,74 @@ export async function fetchBuffettData(
       return { metrics: null, has3yrPositiveIncome: false, marketCap };
     }
 
-    const incomeRaw = (summary as { incomeStatementHistory?: { incomeStatementHistory?: IncomeStmt[] } })
-      .incomeStatementHistory?.incomeStatementHistory ?? [];
-    const balanceRaw = (summary as { balanceSheetHistory?: { balanceSheetStatements?: BalanceStmt[] } })
-      .balanceSheetHistory?.balanceSheetStatements ?? [];
-    const cashflowRaw = (summary as { cashflowStatementHistory?: { cashflowStatements?: CashflowStmt[] } })
-      .cashflowStatementHistory?.cashflowStatements ?? [];
+    // Income statements: use for 3-year positive income gate.
+    const incomeStmts =
+      (summary as {
+        incomeStatementHistory?: {
+          incomeStatementHistory?: Array<{
+            endDate?: unknown;
+            netIncome?: unknown;
+            operatingIncome?: unknown;
+          }>;
+        };
+      }).incomeStatementHistory?.incomeStatementHistory ?? [];
 
-    const incomeList: YearlyIncome[] = incomeRaw
+    const incomeList: YearlyIncome[] = incomeStmts
       .map((i) => {
-        const y = endYear(i);
+        const y = toYear(i.endDate);
         const ni = toNum(i.netIncome);
-        const oi = toNum(i.operatingIncome);
-        if (y == null || ni == null || oi == null) return null;
+        const oi = toNum(i.operatingIncome) ?? ni ?? 0;
+        if (y == null || ni == null) return null;
         return { year: y, netIncome: ni, operatingIncome: oi };
       })
       .filter((x): x is YearlyIncome => x !== null);
 
-    const balanceList: YearlyBalance[] = balanceRaw
-      .map((b) => {
-        const y = endYear(b);
-        const eq = toNum(b.totalStockholderEquity);
-        let totalDebt = toNum(b.totalDebt);
-        if (totalDebt == null) {
-          const lt = toNum(b.longTermDebt) ?? 0;
-          const st =
-            toNum(b.shortTermDebt) ?? toNum(b.shortLongTermDebt) ?? 0;
-          totalDebt = lt + st;
-        }
-        const cash = toNum(b.cash) ?? 0;
-        if (y == null || eq == null || totalDebt == null) return null;
-        return {
-          year: y,
-          stockholdersEquity: eq,
-          totalDebt,
-          totalCash: cash,
-        };
-      })
-      .filter((x): x is YearlyBalance => x !== null);
-
-    const cashflowList: YearlyCashflow[] = cashflowRaw
-      .map((c) => {
-        const y = endYear(c);
-        const ocf = toNum(c.totalCashFromOperatingActivities);
-        const capex = toNum(c.capitalExpenditures) ?? 0;
-        const dep = toNum(c.depreciation) ?? 0;
-        const ni = toNum(c.netIncome) ?? 0;
-        if (y == null || ocf == null) return null;
-        return {
-          year: y,
-          operatingCashflow: ocf,
-          capitalExpenditures: capex,
-          depreciation: dep,
-          netIncome: ni,
-        };
-      })
-      .filter((x): x is YearlyCashflow => x !== null);
-
-    // Buffett metrics
-    const roeHistory = computeRoeHistory(incomeList, balanceList);
-    const avgRoe4y = averageRoe(roeHistory);
-    const allYearsRoeAbove15 =
-      roeHistory.length >= 3 && roeHistory.every((h) => h.roe >= 0.15);
-
-    const latestBalance = [...balanceList].sort((a, b) => b.year - a.year)[0];
-    const dtoEYears = latestBalance
-      ? debtToEarningsYears(latestBalance, incomeList, 3)
-      : null;
-
-    const ownerHist = ownerEarningsHistory(cashflowList);
-    const fcfs = fcfHistory(cashflowList);
-    const sortedByYear = [...fcfs].sort((a, b) => a.year - b.year);
-    const baseFcf = sortedByYear.length
-      ? sortedByYear[sortedByYear.length - 1].fcf
-      : null;
-    const cagr = fcfCagr(sortedByYear.map((f) => f.fcf));
-
-    // Pull analyst growth estimate from earningsTrend "+5y" entry
-    const trend = (summary as {
-      earningsTrend?: {
-        trend?: Array<{
-          period?: string;
-          growth?: { raw?: number } | number | null;
-        }>;
+    // financialData — current snapshots (reliable fields)
+    const financial = (summary as {
+      financialData?: {
+        totalCash?: unknown;
+        totalDebt?: unknown;
+        freeCashflow?: unknown;
+        operatingCashflow?: unknown;
+        returnOnEquity?: unknown;
       };
-    }).earningsTrend?.trend ?? [];
-    const fiveY = trend.find((t) => t.period === "+5y");
-    const analystGrowth = fiveY ? toNum(fiveY.growth) : null;
+    }).financialData ?? {};
+    const totalCash = toNum(financial.totalCash) ?? 0;
+    const totalDebt = toNum(financial.totalDebt) ?? 0;
+    const freeCashflow = toNum(financial.freeCashflow);
+    const currentROE = toNum(financial.returnOnEquity);
 
-    // Shares outstanding
     const sharesOutstanding = toNum(
       (summary as {
-        defaultKeyStatistics?: {
-          sharesOutstanding?: { raw?: number } | number | null;
-        };
+        defaultKeyStatistics?: { sharesOutstanding?: unknown };
       }).defaultKeyStatistics?.sharesOutstanding,
     ) ?? quote.sharesOutstanding ?? null;
 
-    const totalCash = latestBalance?.totalCash ?? 0;
-    const totalDebt = latestBalance?.totalDebt ?? 0;
+    // Analyst 5yr growth (if available)
+    const trend = (summary as {
+      earningsTrend?: {
+        trend?: Array<{ period?: string; growth?: unknown }>;
+      };
+    }).earningsTrend?.trend ?? [];
+    const analystGrowth = toNum(
+      trend.find((t) => t.period === "+5y")?.growth,
+    );
 
+    // Net-income CAGR as secondary growth signal (from incomeStatementHistory)
+    const netIncomeSortedOldFirst = [...incomeList]
+      .sort((a, b) => a.year - b.year)
+      .map((i) => i.netIncome);
+    const niCagr = fcfCagr(netIncomeSortedOldFirst);
+
+    // DCF: use free cash flow from financialData as trailing FCF base
     let mos: number | null = null;
     let intrinsicPerShare: number | null = null;
     let usedGrowth: number | null = null;
-    if (baseFcf != null && sharesOutstanding != null) {
+    if (freeCashflow != null && sharesOutstanding != null) {
       const dcf = runDCF({
-        baseFcf,
+        baseFcf: freeCashflow,
         growthRate: analystGrowth,
-        fcfHistoryCagr: cagr,
+        fcfHistoryCagr: niCagr,
         sharesOutstanding,
         totalCash,
         totalDebt,
@@ -239,15 +187,42 @@ export async function fetchBuffettData(
       }
     }
 
-    // RSI
+    // Debt-to-Earnings: net debt / 3yr avg netIncome
+    const recentNetIncomes = [...incomeList]
+      .sort((a, b) => b.year - a.year)
+      .slice(0, 3)
+      .map((i) => i.netIncome);
+    const avg3yrNi =
+      recentNetIncomes.length > 0
+        ? recentNetIncomes.reduce((a, b) => a + b, 0) / recentNetIncomes.length
+        : null;
+    let dtoEYears: number | null = null;
+    const netDebt = totalDebt - totalCash;
+    if (netDebt <= 0) {
+      dtoEYears = 0;
+    } else if (avg3yrNi != null && avg3yrNi > 0) {
+      dtoEYears = netDebt / avg3yrNi;
+    }
+
+    // ROE: Yahoo only reliably gives current (returnOnEquity from financialData)
+    const roeHistory: RoeHistoryEntry[] =
+      currentROE != null
+        ? [{ year: new Date().getUTCFullYear(), roe: currentROE }]
+        : [];
+    const avgRoe = currentROE;
+    // With only current ROE, consistency check reduces to "current ≥ 15%"
+    const roeAbove15 = currentROE != null && currentROE >= 0.15;
+
+    // RSI from historical closes
     const closes: number[] =
-      history?.map((h) => h.close).filter((v): v is number => typeof v === "number" && isFinite(v)) ??
-      [];
+      history
+        ?.map((h) => h.close)
+        .filter((v): v is number => typeof v === "number" && isFinite(v)) ?? [];
     const rsi14 = calculateRSI(closes, 14);
 
     // Pick evaluation
     const mosPass = mos != null && mos <= -0.30;
-    const roePass = allYearsRoeAbove15;
+    const roePass = roeAbove15;
     const debtPass = dtoEYears != null && dtoEYears < 3.0;
     const rsiPass = rsi14 != null && rsi14 < 30;
 
@@ -261,12 +236,12 @@ export async function fetchBuffettData(
       marginOfSafety: mos,
       intrinsicPerShare,
       usedGrowthRate: usedGrowth,
-      avgRoe4y,
+      avgRoe4y: avgRoe,
       roeHistory,
-      allYearsRoeAbove15,
+      allYearsRoeAbove15: roeAbove15,
       debtToEarningsYears: dtoEYears,
       rsi14,
-      ownerEarnings: ownerHist,
+      ownerEarnings: [],
       pick: {
         mosPass,
         roePass,
