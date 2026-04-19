@@ -12,6 +12,7 @@ import {
   getDrawdownColor,
   getChangeColor,
 } from "@/lib/colors";
+import { useStrategyMemo } from "@/hooks/use-strategy-memo";
 import type { WatchlistItem, WatchlistResponse } from "@/types/dashboard";
 import type { ReactNode } from "react";
 
@@ -41,6 +42,8 @@ export function StockTable({
   defaultRows,
 }: StockTableProps) {
   const { searchQuery, sortConfig } = useDashboardStore();
+  const { data: memoData } = useStrategyMemo();
+  const memos = memoData?.memos ?? {};
 
   const items = (data?.data ?? []).filter(isFullItem);
 
@@ -152,7 +155,11 @@ export function StockTable({
                   <td className="px-6 py-4 text-slate-600 font-medium">
                     {t.forwardPE != null ? `${t.forwardPE.toFixed(1)}x` : "N/A"}
                   </td>
-                  <td className="px-6 py-4 text-slate-400 text-[10px]">-</td>
+                  <td className="px-6 py-4 text-slate-600 text-[11px] leading-snug max-w-[280px]">
+                    {memos[t.symbol] ?? (
+                      <span className="text-slate-300">생성 대기</span>
+                    )}
+                  </td>
                   <td className="px-6 py-4">
                     <ActionBadge action={t.action} />
                   </td>
@@ -222,6 +229,13 @@ export function StockTable({
                 </span>
                 <span>고가 ${t.high52w ?? "N/A"}</span>
               </div>
+              {/* Strategy memo */}
+              {memos[t.symbol] && (
+                <div className="text-[11px] text-slate-600 leading-snug pt-1 border-t border-slate-100">
+                  <span className="text-slate-400 block mb-0.5">전략 메모</span>
+                  {memos[t.symbol]}
+                </div>
+              )}
             </div>
           ))}
         </div>
