@@ -8,6 +8,7 @@ import { TabNavigation } from "@/components/layout/TabNavigation";
 import { StrategicOverview } from "@/components/overview/StrategicOverview";
 import { WatchlistTab } from "@/components/tables/WatchlistTab";
 import { MonitoringTab } from "@/components/tables/MonitoringTab";
+import { OpportunityTab } from "@/components/opp/OpportunityTab";
 
 export default function Home() {
   const { activeTab } = useDashboardStore();
@@ -33,6 +34,7 @@ export default function Home() {
         {activeTab === "overview" && <StrategicOverview />}
         {activeTab === "watchlist" && <WatchlistTab />}
         {activeTab === "monitoring" && <MonitoringTab />}
+        {activeTab === "opp" && <OpportunityTab />}
       </div>
 
       {/* Footer */}

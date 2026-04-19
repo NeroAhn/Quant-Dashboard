@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type Tab = "overview" | "watchlist" | "monitoring";
+type Tab = "overview" | "watchlist" | "monitoring" | "opp";
 type SortField = "rs" | "drawdown" | "ma50Dist" | "symbol";
 type SortDirection = "asc" | "desc";
 

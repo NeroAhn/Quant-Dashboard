@@ -1,0 +1,241 @@
+export type BroadSector =
+  | "Technology"
+  | "Consumer Discretionary"
+  | "Consumer Staples"
+  | "Healthcare"
+  | "Communication Services"
+  | "Industrials"
+  | "Financials"
+  | "Energy"
+  | "Utilities"
+  | "Materials"
+  | "Real Estate";
+
+export interface UniverseEntry {
+  symbol: string;
+  sector: BroadSector;
+}
+
+export const NASDAQ_UNIVERSE: readonly UniverseEntry[] = [
+  // Technology (~75)
+  { symbol: "AAPL", sector: "Technology" },
+  { symbol: "MSFT", sector: "Technology" },
+  { symbol: "NVDA", sector: "Technology" },
+  { symbol: "GOOGL", sector: "Communication Services" },
+  { symbol: "GOOG", sector: "Communication Services" },
+  { symbol: "META", sector: "Communication Services" },
+  { symbol: "AVGO", sector: "Technology" },
+  { symbol: "CSCO", sector: "Technology" },
+  { symbol: "ADBE", sector: "Technology" },
+  { symbol: "AMD", sector: "Technology" },
+  { symbol: "INTC", sector: "Technology" },
+  { symbol: "INTU", sector: "Technology" },
+  { symbol: "QCOM", sector: "Technology" },
+  { symbol: "TXN", sector: "Technology" },
+  { symbol: "AMAT", sector: "Technology" },
+  { symbol: "LRCX", sector: "Technology" },
+  { symbol: "KLAC", sector: "Technology" },
+  { symbol: "MU", sector: "Technology" },
+  { symbol: "ADI", sector: "Technology" },
+  { symbol: "MRVL", sector: "Technology" },
+  { symbol: "NXPI", sector: "Technology" },
+  { symbol: "MCHP", sector: "Technology" },
+  { symbol: "ON", sector: "Technology" },
+  { symbol: "GFS", sector: "Technology" },
+  { symbol: "ARM", sector: "Technology" },
+  { symbol: "ASML", sector: "Technology" },
+  { symbol: "PANW", sector: "Technology" },
+  { symbol: "CRWD", sector: "Technology" },
+  { symbol: "FTNT", sector: "Technology" },
+  { symbol: "ZS", sector: "Technology" },
+  { symbol: "OKTA", sector: "Technology" },
+  { symbol: "CYBR", sector: "Technology" },
+  { symbol: "TENB", sector: "Technology" },
+  { symbol: "SNPS", sector: "Technology" },
+  { symbol: "CDNS", sector: "Technology" },
+  { symbol: "ANSS", sector: "Technology" },
+  { symbol: "ADSK", sector: "Technology" },
+  { symbol: "WDAY", sector: "Technology" },
+  { symbol: "TEAM", sector: "Technology" },
+  { symbol: "MDB", sector: "Technology" },
+  { symbol: "DDOG", sector: "Technology" },
+  { symbol: "CDW", sector: "Technology" },
+  { symbol: "CTSH", sector: "Technology" },
+  { symbol: "SMCI", sector: "Technology" },
+  { symbol: "PLTR", sector: "Technology" },
+  { symbol: "APP", sector: "Technology" },
+  { symbol: "ROP", sector: "Technology" },
+  { symbol: "TTD", sector: "Technology" },
+  { symbol: "MSTR", sector: "Technology" },
+  { symbol: "COIN", sector: "Financials" },
+  { symbol: "HOOD", sector: "Financials" },
+  { symbol: "SOFI", sector: "Financials" },
+  { symbol: "PYPL", sector: "Financials" },
+  { symbol: "UPST", sector: "Financials" },
+  { symbol: "IONQ", sector: "Technology" },
+  { symbol: "RGTI", sector: "Technology" },
+  { symbol: "QBTS", sector: "Technology" },
+  { symbol: "PATH", sector: "Technology" },
+  { symbol: "AI", sector: "Technology" },
+  { symbol: "BILL", sector: "Technology" },
+  { symbol: "HUBS", sector: "Technology" },
+  { symbol: "FROG", sector: "Technology" },
+  { symbol: "ESTC", sector: "Technology" },
+  { symbol: "GTLB", sector: "Technology" },
+  { symbol: "WIX", sector: "Technology" },
+  { symbol: "TWLO", sector: "Technology" },
+  { symbol: "ZM", sector: "Technology" },
+  { symbol: "DOCU", sector: "Technology" },
+  { symbol: "CFLT", sector: "Technology" },
+  { symbol: "AXON", sector: "Industrials" },
+  { symbol: "LSCC", sector: "Technology" },
+  { symbol: "AKAM", sector: "Technology" },
+  { symbol: "FFIV", sector: "Technology" },
+  { symbol: "ZBRA", sector: "Technology" },
+  { symbol: "CGNX", sector: "Technology" },
+  { symbol: "NTAP", sector: "Technology" },
+  { symbol: "LOGI", sector: "Technology" },
+
+  // Consumer Discretionary (~30)
+  { symbol: "AMZN", sector: "Consumer Discretionary" },
+  { symbol: "TSLA", sector: "Consumer Discretionary" },
+  { symbol: "BKNG", sector: "Consumer Discretionary" },
+  { symbol: "SBUX", sector: "Consumer Discretionary" },
+  { symbol: "MAR", sector: "Consumer Discretionary" },
+  { symbol: "ORLY", sector: "Consumer Discretionary" },
+  { symbol: "ROST", sector: "Consumer Discretionary" },
+  { symbol: "LULU", sector: "Consumer Discretionary" },
+  { symbol: "ABNB", sector: "Consumer Discretionary" },
+  { symbol: "DASH", sector: "Consumer Discretionary" },
+  { symbol: "EBAY", sector: "Consumer Discretionary" },
+  { symbol: "MELI", sector: "Consumer Discretionary" },
+  { symbol: "PDD", sector: "Consumer Discretionary" },
+  { symbol: "JD", sector: "Consumer Discretionary" },
+  { symbol: "DKNG", sector: "Consumer Discretionary" },
+  { symbol: "RIVN", sector: "Consumer Discretionary" },
+  { symbol: "LI", sector: "Consumer Discretionary" },
+  { symbol: "LCID", sector: "Consumer Discretionary" },
+  { symbol: "MTCH", sector: "Communication Services" },
+  { symbol: "EXPE", sector: "Consumer Discretionary" },
+  { symbol: "TRIP", sector: "Consumer Discretionary" },
+  { symbol: "WYNN", sector: "Consumer Discretionary" },
+  { symbol: "CROX", sector: "Consumer Discretionary" },
+  { symbol: "DLTR", sector: "Consumer Discretionary" },
+  { symbol: "FIVE", sector: "Consumer Discretionary" },
+  { symbol: "PTON", sector: "Consumer Discretionary" },
+  { symbol: "RBLX", sector: "Communication Services" },
+  { symbol: "TTWO", sector: "Communication Services" },
+  { symbol: "EA", sector: "Communication Services" },
+  { symbol: "CAR", sector: "Consumer Discretionary" },
+  { symbol: "POOL", sector: "Consumer Discretionary" },
+
+  // Communication Services (~10)
+  { symbol: "NFLX", sector: "Communication Services" },
+  { symbol: "TMUS", sector: "Communication Services" },
+  { symbol: "CMCSA", sector: "Communication Services" },
+  { symbol: "CHTR", sector: "Communication Services" },
+  { symbol: "WBD", sector: "Communication Services" },
+  { symbol: "SIRI", sector: "Communication Services" },
+  { symbol: "PARA", sector: "Communication Services" },
+  { symbol: "FOX", sector: "Communication Services" },
+  { symbol: "FOXA", sector: "Communication Services" },
+  { symbol: "PINS", sector: "Communication Services" },
+
+  // Consumer Staples (~8)
+  { symbol: "PEP", sector: "Consumer Staples" },
+  { symbol: "COST", sector: "Consumer Staples" },
+  { symbol: "MDLZ", sector: "Consumer Staples" },
+  { symbol: "KDP", sector: "Consumer Staples" },
+  { symbol: "KHC", sector: "Consumer Staples" },
+  { symbol: "MNST", sector: "Consumer Staples" },
+  { symbol: "CELH", sector: "Consumer Staples" },
+  { symbol: "WBA", sector: "Consumer Staples" },
+
+  // Healthcare (~30)
+  { symbol: "AMGN", sector: "Healthcare" },
+  { symbol: "GILD", sector: "Healthcare" },
+  { symbol: "ISRG", sector: "Healthcare" },
+  { symbol: "REGN", sector: "Healthcare" },
+  { symbol: "VRTX", sector: "Healthcare" },
+  { symbol: "BIIB", sector: "Healthcare" },
+  { symbol: "DXCM", sector: "Healthcare" },
+  { symbol: "IDXX", sector: "Healthcare" },
+  { symbol: "ALGN", sector: "Healthcare" },
+  { symbol: "BMRN", sector: "Healthcare" },
+  { symbol: "INCY", sector: "Healthcare" },
+  { symbol: "MRNA", sector: "Healthcare" },
+  { symbol: "ILMN", sector: "Healthcare" },
+  { symbol: "GEHC", sector: "Healthcare" },
+  { symbol: "PODD", sector: "Healthcare" },
+  { symbol: "HSIC", sector: "Healthcare" },
+  { symbol: "NBIX", sector: "Healthcare" },
+  { symbol: "BNTX", sector: "Healthcare" },
+  { symbol: "NVAX", sector: "Healthcare" },
+  { symbol: "UTHR", sector: "Healthcare" },
+  { symbol: "GH", sector: "Healthcare" },
+  { symbol: "RPRX", sector: "Healthcare" },
+  { symbol: "ARGX", sector: "Healthcare" },
+  { symbol: "AZN", sector: "Healthcare" },
+  { symbol: "EXEL", sector: "Healthcare" },
+  { symbol: "JAZZ", sector: "Healthcare" },
+  { symbol: "IEP", sector: "Healthcare" },
+  { symbol: "TECH", sector: "Healthcare" },
+  { symbol: "SRPT", sector: "Healthcare" },
+  { symbol: "VTRS", sector: "Healthcare" },
+
+  // Industrials (~15)
+  { symbol: "CSX", sector: "Industrials" },
+  { symbol: "FAST", sector: "Industrials" },
+  { symbol: "ODFL", sector: "Industrials" },
+  { symbol: "HON", sector: "Industrials" },
+  { symbol: "PAYX", sector: "Industrials" },
+  { symbol: "PCAR", sector: "Industrials" },
+  { symbol: "JBHT", sector: "Industrials" },
+  { symbol: "CHRW", sector: "Industrials" },
+  { symbol: "TRMB", sector: "Industrials" },
+  { symbol: "UAL", sector: "Industrials" },
+  { symbol: "CTAS", sector: "Industrials" },
+  { symbol: "VRSK", sector: "Industrials" },
+  { symbol: "CPRT", sector: "Industrials" },
+  { symbol: "CSGP", sector: "Industrials" },
+  { symbol: "WWD", sector: "Industrials" },
+
+  // Financials (~10)
+  { symbol: "NDAQ", sector: "Financials" },
+  { symbol: "NTRS", sector: "Financials" },
+  { symbol: "HBAN", sector: "Financials" },
+  { symbol: "ZION", sector: "Financials" },
+  { symbol: "FITB", sector: "Financials" },
+  { symbol: "TROW", sector: "Financials" },
+  { symbol: "LPLA", sector: "Financials" },
+  { symbol: "FCNCA", sector: "Financials" },
+  { symbol: "CINF", sector: "Financials" },
+  { symbol: "PFG", sector: "Financials" },
+
+  // Energy (~5)
+  { symbol: "FANG", sector: "Energy" },
+  { symbol: "CEG", sector: "Utilities" },
+  { symbol: "EQT", sector: "Energy" },
+  { symbol: "CHK", sector: "Energy" },
+
+  // Utilities (~3)
+  { symbol: "XEL", sector: "Utilities" },
+  { symbol: "EXC", sector: "Utilities" },
+  { symbol: "AEP", sector: "Utilities" },
+
+  // Real Estate (~3)
+  { symbol: "EQIX", sector: "Real Estate" },
+  { symbol: "SBAC", sector: "Real Estate" },
+  { symbol: "HST", sector: "Real Estate" },
+
+  // Materials
+  { symbol: "LIN", sector: "Materials" },
+] as const;
+
+export const NASDAQ_UNIVERSE_SYMBOLS: readonly string[] = NASDAQ_UNIVERSE.map(
+  (u) => u.symbol,
+);
+
+export const SECTOR_BY_SYMBOL: Record<string, BroadSector> = Object.fromEntries(
+  NASDAQ_UNIVERSE.map((u) => [u.symbol, u.sector]),
+);

@@ -1,27 +1,14 @@
-import { genai } from "@/lib/gemini/client";
 import { fetchNewsForTickers } from "@/lib/news/client";
 import { WATCHLIST_TICKERS, MONITORING_TICKERS } from "@/lib/constants";
 import { buildTickerResponse } from "@/lib/yahoo-finance/quotes";
 import yahooFinance from "@/lib/yahoo-finance/client";
 import type { WatchlistItem } from "@/types/dashboard";
-import {
-  STRATEGY_MEMO_SYSTEM_INSTRUCTION,
-  buildStrategyMemoPrompt,
-  type TickerContext,
-} from "./prompt";
-
-export interface StrategyMemoEntry {
-  symbol: string;
-  memo: string;
-}
+import { generateMemosFromContexts } from "./engine";
+import type { TickerContext } from "./prompt";
 
 export interface StrategyMemoBundle {
   memos: Record<string, string>;
   generatedAt: string;
-}
-
-interface GeminiMemoResponse {
-  memos: StrategyMemoEntry[];
 }
 
 function isWatchlistItem(
@@ -39,10 +26,6 @@ async function fetchAllQuantItems(): Promise<WatchlistItem[]> {
 }
 
 export async function generateStrategyMemos(): Promise<StrategyMemoBundle> {
-  if (!genai) {
-    throw new Error("Gemini API not configured");
-  }
-
   const allTickers = [...WATCHLIST_TICKERS, ...MONITORING_TICKERS] as const;
 
   const [quantItems, newsItems] = await Promise.all([
@@ -67,29 +50,7 @@ export async function generateStrategyMemos(): Promise<StrategyMemoBundle> {
     },
   }));
 
-  const userPrompt = buildStrategyMemoPrompt(contexts);
-
-  const response = await genai.models.generateContent({
-    model: "gemini-2.5-flash",
-    contents: userPrompt,
-    config: {
-      systemInstruction: STRATEGY_MEMO_SYSTEM_INSTRUCTION,
-      temperature: 0.3,
-      maxOutputTokens: 4000,
-      thinkingConfig: { thinkingBudget: 0 },
-      responseMimeType: "application/json",
-    },
-  });
-
-  const text = response.text ?? "";
-  const parsed = JSON.parse(text) as GeminiMemoResponse;
-
-  const memos: Record<string, string> = {};
-  for (const entry of parsed.memos ?? []) {
-    if (entry.symbol && entry.memo) {
-      memos[entry.symbol] = entry.memo;
-    }
-  }
+  const memos = await generateMemosFromContexts(contexts);
 
   return {
     memos,

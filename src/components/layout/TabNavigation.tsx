@@ -5,6 +5,7 @@ const TABS = [
   { key: "overview" as const, label: "전략 개요" },
   { key: "watchlist" as const, label: "워치리스트" },
   { key: "monitoring" as const, label: "모니터링 리스트" },
+  { key: "opp" as const, label: "Opp" },
 ] as const;
 
 export function TabNavigation() {
