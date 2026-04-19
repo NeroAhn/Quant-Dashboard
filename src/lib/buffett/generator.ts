@@ -75,16 +75,21 @@ function sortByMoS(items: BuffettMetrics[]): BuffettMetrics[] {
   });
 }
 
+const MEMO_TOP_N = 30;
+
 async function attachMemos(
   entries: BuffettMetrics[],
 ): Promise<BuffettMetrics[]> {
   if (entries.length === 0) return entries;
+  // Only generate memos for the top-N (highest MoS discount) to fit
+  // within Gemini's single-call output-token budget.
+  const memoTargets = entries.slice(0, MEMO_TOP_N);
   try {
-    const symbols = entries.map((e) => e.symbol);
+    const symbols = memoTargets.map((e) => e.symbol);
     const news = await fetchNewsForTickers(symbols);
     const newsBySymbol = new Map(news.map((n) => [n.symbol, n]));
 
-    const contexts: TickerContext[] = entries.map((m) => ({
+    const contexts: TickerContext[] = memoTargets.map((m) => ({
       quant: {
         symbol: m.symbol,
         rs: 0,

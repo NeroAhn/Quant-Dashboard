@@ -23,7 +23,7 @@ async function generateAndRemember(): Promise<BuffettOppBundle> {
 
 export const getCachedBuffettOpp = unstable_cache(
   generateAndRemember,
-  ["buffett-opp-v3"],
+  ["buffett-opp-v4"],
   {
     revalidate: TWENTY_FOUR_HOURS,
     tags: [CACHE_TAG],
